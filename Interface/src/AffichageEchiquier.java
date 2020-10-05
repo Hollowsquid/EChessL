@@ -1,6 +1,6 @@
 import java.util.Arrays;
 public class AffichageEchiquier {
-
+    //test
     public static void main(String[] args) {
         piece echiquier[][] = initialisationEchiquier();
         //echiquier[2][4] = new piece(5,10,1);
