@@ -1,8 +1,9 @@
-import java.util.Arrays;
+//import java.util.Arrays;
+
 public class AffichageEchiquier {
 
     public static void main(String[] args) {
-        piece echiquier[][] = initialisationEchiquier();
+        piece[][] echiquier = initialisationEchiquier();
         //echiquier[2][4] = new piece(5,10,1);
         affichage(echiquier);
         //System.out.println( Arrays.deepToString(echiquier[2][4].deplacementPossible(2,4,echiquier)) );
@@ -17,6 +18,7 @@ public class AffichageEchiquier {
         //System.out.println( Arrays.deepToString(echiquier[2][3].deplacementPossible(2,3,echiquier)) );
         deplacer(2,3,3,2,echiquier);
         affichage(echiquier);
+
     }
 
     public static void affichage(piece[][] echiquier){
@@ -90,7 +92,6 @@ public class AffichageEchiquier {
         int type; //1 : pion | 2 : tour | 3 : cavalier | 4 : fou | 5 : reine | 6 : roi
         int valeur;// valeur de la pièce | pion : | tour : ...
         int equipe;// equipe de la pièce | haut : 1 | bas : -1 | case vide : 0
-
 
         piece(int typei,int valeuri,int equipei){
             type = typei;
