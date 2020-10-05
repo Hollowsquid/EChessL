@@ -1,6 +1,6 @@
 import java.util.Arrays;
 public class AffichageEchiquier {
-    //test
+
     public static void main(String[] args) {
         piece echiquier[][] = initialisationEchiquier();
         //echiquier[2][4] = new piece(5,10,1);
@@ -87,7 +87,10 @@ public class AffichageEchiquier {
     }
 
     static class piece{
-        int type; int valeur;int equipe;
+        int type; //1 : pion | 2 : tour | 3 : cavalier | 4 : fou | 5 : reine | 6 : roi
+        int valeur;// valeur de la pièce | pion : | tour : ...
+        int equipe;// equipe de la pièce | haut : 1 | bas : -1 | case vide : 0
+
 
         piece(int typei,int valeuri,int equipei){
             type = typei;
@@ -239,7 +242,7 @@ public class AffichageEchiquier {
 
                 break;
 
-                case(5):
+                case(5): //reine
                     k = 1;
                     toucher = false;
                     while (ligne-k >= 0 && echiquier[ligne-k][colonne].equipe != equipe && toucher == false) {//haut
@@ -338,7 +341,7 @@ public class AffichageEchiquier {
 
                 break;
 
-                case(6):
+                case(6): // roi
                     int cases[][] = {{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1},{1,0}};
                     for(int i = 0; i < 8 ; i ++){
                         if(echiquier[ligne+cases[i][0]][colonne+cases[i][1]].equipe != equipe){
