@@ -96,11 +96,11 @@ public class EchessL extends Canvas implements Runnable{
             }
         }
 
-        if (pieceSelectColonne > 0 && pieceSelectLigne > 0){
+        if (pieceSelectColonne >= 0 && pieceSelectLigne >= 0){
             int[][] CasesAccessible = echiquier[pieceSelectLigne][pieceSelectColonne].deplacementPossible(pieceSelectLigne,pieceSelectColonne,echiquier);
             g.setColor(Color.red);
-            for(int i = 0 ; i < CasesAccessible.length ; i ++){
-                g.fillRect(CasesAccessible[i][1]*dimRect,CasesAccessible[i][0]*dimRect,dimRect,dimRect);
+            for (int[] ints : CasesAccessible) {
+                g.fillRect(ints[1] * dimRect, ints[0] * dimRect, dimRect, dimRect);
             }
         }
 

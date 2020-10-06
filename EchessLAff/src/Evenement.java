@@ -17,8 +17,8 @@ public class Evenement implements MouseListener{
             EchessL.pieceSelectColonne = e.getX()/EchessL.dimRect;
 
         }else if(SwingUtilities.isRightMouseButton(e)){
-            System.out.println("Clic droit");
-            if(EchessL.pieceSelectColonne > 0 && EchessL.pieceSelectLigne > 0){
+            //System.out.println("Clic droit");
+            if(EchessL.pieceSelectColonne >= 0 && EchessL.pieceSelectLigne >= 0){
                 EchessL.echiquier = EchessL.deplacer(EchessL.pieceSelectLigne,EchessL.pieceSelectColonne,e.getY()/EchessL.dimRect,e.getX()/EchessL.dimRect,EchessL.echiquier);
                 EchessL.pieceSelectColonne = -1;
                 EchessL.pieceSelectLigne = -1;
