@@ -16,7 +16,8 @@ public class Piece{
             switch(type){
 
                 case(1)://pion
-                    if( (ligne+equipe > 0 && ligne+equipe < 8 && echiquier[ligne+equipe][colonne].equipe != equipe) ){//avance
+
+                    if( (ligne+equipe >= 0 && ligne+equipe < 8 && echiquier[ligne+equipe][colonne].equipe != equipe) ){//avance
                         depPosTot[nPos][0] = ligne+equipe;
                         depPosTot[nPos][1] = colonne;
                         nPos ++;
@@ -26,12 +27,12 @@ public class Piece{
                         depPosTot[nPos][1] = colonne;
                         nPos ++;
                     }
-                    if( ligne+equipe > 0 && ligne+equipe < 8 && colonne+1 > 0 && colonne+1 < 8 && echiquier[ligne+equipe][colonne+1].equipe != equipe && echiquier[ligne+equipe][colonne+1].type != 0){
+                    if( ligne+equipe >= 0 && ligne+equipe < 8 && colonne+1 >= 0 && colonne+1 < 8 && echiquier[ligne+equipe][colonne+1].equipe != equipe && echiquier[ligne+equipe][colonne+1].type != 0){
                         depPosTot[nPos][0] = ligne+equipe;
                         depPosTot[nPos][1] = colonne+1;
                         nPos ++;
                     }
-                    if( ligne+equipe > 0 && ligne+equipe < 8 && colonne-1 > 0 && colonne-1 < 8 && echiquier[ligne+equipe][colonne-1].equipe != equipe && echiquier[ligne+equipe][colonne-1].type != 0){
+                    if( ligne+equipe >= 0 && ligne+equipe < 8 && colonne-1 >= 0 && colonne-1 < 8 && echiquier[ligne+equipe][colonne-1].equipe != equipe && echiquier[ligne+equipe][colonne-1].type != 0){
                         depPosTot[nPos][0] = ligne+equipe;
                         depPosTot[nPos][1] = colonne-1;
                         nPos ++;
@@ -92,7 +93,7 @@ public class Piece{
                     for(int i = 0; i < 8 ; i ++){
                         for(int j = 0; j  < 8 ; j ++){
                             if( !(i == ligne || j == colonne) && Math.abs(ligne-i)+Math.abs(j-colonne) == 3 ){
-                                if(echiquier[i][j].type == 0 || echiquier[i][j].equipe != equipe){
+                                if(echiquier[i][j].equipe != equipe){
                                     depPosTot[nPos][0] = i;
                                     depPosTot[nPos][1] = j;
                                     nPos ++;
@@ -171,6 +172,7 @@ public class Piece{
                     while (ligne+k < 8 && echiquier[ligne+k][colonne].equipe != equipe && !toucher) {//bas
                         depPosTot[nPos][0] = ligne+k;
                         depPosTot[nPos][1] = colonne;
+
                         if(echiquier[ligne+k][colonne].equipe != equipe && echiquier[ligne+k][colonne].equipe != 0){
                             toucher = true;
                         }
@@ -255,10 +257,12 @@ public class Piece{
                 case(6): // roi
                     int[][] cases = {{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1},{1,0}};
                     for(int i = 0; i < 8 ; i ++){
-                        if(echiquier[ligne+cases[i][0]][colonne+cases[i][1]].equipe != equipe){
-                            depPosTot[nPos][0] = ligne+cases[i][0];
-                            depPosTot[nPos][1] = colonne+cases[i][1];
-                            nPos ++;
+                        if(ligne+cases[i][0] >= 0 && ligne+cases[i][0] < 8 && colonne+cases[i][1] >= 0 && colonne+cases[i][1] < 8 ){
+                            if(echiquier[ligne+cases[i][0]][colonne+cases[i][1]].equipe != equipe){
+                                depPosTot[nPos][0] = ligne+cases[i][0];
+                                depPosTot[nPos][1] = colonne+cases[i][1];
+                                nPos ++;
+                            }
                         }
                     }
 

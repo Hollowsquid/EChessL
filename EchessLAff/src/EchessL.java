@@ -13,7 +13,7 @@ public class EchessL extends Canvas implements Runnable{
     public static int pieceSelectColonne = -1;
     public static int dimRect = WIDTH/8-1;
 
-    Piece[][] echiquier = initialisationEchiquier();
+    static Piece[][] echiquier = initialisationEchiquier();
 
     public EchessL(){
         addMouseListener(new Evenement());
@@ -43,6 +43,7 @@ public class EchessL extends Canvas implements Runnable{
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+
         while(running){
             long now = System.nanoTime();
             delta += (now-lastTime)/ns;
@@ -70,7 +71,7 @@ public class EchessL extends Canvas implements Runnable{
 
     }
 
-    private void render(){
+    public void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(3);
@@ -134,6 +135,26 @@ public class EchessL extends Canvas implements Runnable{
 
         g.dispose();
         bs.show();
+    }
+
+    static Piece[][]deplacer(int ligneDep,int colonneDep,int ligneArr,int colonneArr,Piece[][] echiquierDepl){
+        int [][] depPos = echiquierDepl[ligneDep][colonneDep].deplacementPossible(ligneDep,colonneDep,echiquierDepl);
+        boolean depPossible = false;
+        for (int[] depPo : depPos) {
+            if (depPo[0] == ligneArr && depPo[1] == colonneArr) {
+                depPossible = true;
+                break;
+            }
+        }
+        if(depPossible){
+            Piece chgm = echiquierDepl[ligneDep][colonneDep];
+            echiquierDepl[ligneDep][colonneDep] = new Piece(0,0,0);
+            echiquierDepl[ligneArr][colonneArr].mort();
+            echiquierDepl[ligneArr][colonneArr] = chgm;
+        }else{
+            System.out.println("Cette position n'est pas possible");
+        }
+        return echiquierDepl;
     }
 
     public static void main(String[] args){
