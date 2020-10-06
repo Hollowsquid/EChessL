@@ -9,10 +9,14 @@ public class EchessL extends Canvas implements Runnable{
     public static final int WIDTH = 700, HEIGHT = 700;
     private Thread thread;
     private boolean running = false;
+    public static int pieceSelectLigne = -1;
+    public static int pieceSelectColonne = -1;
+    public static int dimRect = WIDTH/8-1;
 
     piece[][] echiquier = initialisationEchiquier();
 
     public EchessL(){
+        addMouseListener(new Evenement());
         new Window(WIDTH,HEIGHT,"Let's go",this);
     }
 
@@ -77,13 +81,16 @@ public class EchessL extends Canvas implements Runnable{
 //        g.fillRect(0,0,WIDTH,HEIGHT);
 
 
-        int dimRect = WIDTH/8-1;
+
         for(int i = 0; i < 8 ; i ++){
             for(int j = 0 ; j < 8 ; j ++){
                 if( (j*7+i)%2 == 0 ){
                     g.setColor(Color.black);
                 }else{
                     g.setColor(Color.white);
+                }
+                if(pieceSelectLigne == j && pieceSelectColonne == i){
+                    g.setColor(Color.green);
                 }
                 g.fillRect(i*dimRect,j*dimRect,dimRect,dimRect);
 
@@ -122,6 +129,7 @@ public class EchessL extends Canvas implements Runnable{
     }
 
     public static void main(String[] args){
+
         new EchessL();
     }
 
