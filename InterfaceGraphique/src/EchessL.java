@@ -95,7 +95,7 @@ public class EchessL extends Canvas implements Runnable{
 
 
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         new EchessL();
     }
 }
