@@ -10,6 +10,8 @@ public class EchessL extends Canvas implements Runnable{
     private Thread thread;
     private boolean running = false;
 
+    piece[][] echiquier = initialisationEchiquier();
+
     public EchessL(){
         new Window(WIDTH,HEIGHT,"Let's go",this);
     }
@@ -53,7 +55,7 @@ public class EchessL extends Canvas implements Runnable{
 
             if(System.currentTimeMillis()-timer > 1000){
                 timer += 1000;
-                System.out.println("FPS : "+frames);
+                //System.out.println("FPS : "+frames);
                 frames = 0;
             }
         }
@@ -87,15 +89,65 @@ public class EchessL extends Canvas implements Runnable{
 
             }
         }
-        System.out.println(dimRect);
+        g.setColor(new Color(100,75,250));
+        Font fonte = new Font(" TimesRoman ",Font.BOLD,30);
+        g.setFont(fonte);
+        for(int i = 0; i < 8 ; i ++){
+            for(int j = 0; j < 8 ; j ++){
+                String aff = "";
+                switch (echiquier[i][j].type) {
+                    case (0) -> aff += '·';
+                    case (1) -> aff += 'P';
+                    case (2) -> aff += 'T';
+                    case (3) -> aff += 'C';
+                    case (4) -> aff += 'F';
+                    case (5) -> aff += 'Q';
+                    case (6) -> aff += 'K';
+                }
+                if(echiquier[i][j].type == 0){
+                    aff += " ";
+                }else{
+                    if(echiquier[i][j].equipe > 0){
+                        aff += "+";
+                    }else{
+                        aff += "-";
+                    }
+                }
+                g.drawString(aff,j*dimRect+dimRect/2,i*dimRect+dimRect/2);
+            }
+        }
 
         g.dispose();
         bs.show();
     }
 
-
-
     public static void main(String[] args){
         new EchessL();
     }
+
+    static piece [][]initialisationEchiquier(){
+        piece[][] echiquier = new piece[8][8];
+        for(int i = 0; i < 8 ; i ++){
+            for(int j = 0; j < 8 ; j ++){
+                echiquier[i][j] = new piece(0,0,0);
+            }
+        }
+        for(int i = 0; i < 8 ; i ++){
+            echiquier[1][i] = new piece(1,10,1);
+            echiquier[6][i] = new piece(1,10,-1);
+        }
+        for(int i = 0; i < 3 ; i ++){
+            echiquier[0][i] = new piece(2+i,10*(2+i),1);
+            echiquier[0][7-i] = new piece(2+i,10*(2+i),1);
+            echiquier[7][i] = new piece(2+i,10*(2+i),-1);
+            echiquier[7][7-i] = new piece(2+i,10*(2+i),-1);
+        }
+        echiquier[0][3] = new piece(5,100,1);
+        echiquier[0][4] = new piece(6,1000,1);
+        echiquier[7][3] = new piece(6,1000,-1);
+        echiquier[7][4] = new piece(5,100,-1);
+
+        return echiquier;
+    }
+
 }
