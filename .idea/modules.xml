@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CeciEstUnTest/CeciEstUnTest.iml" filepath="$PROJECT_DIR$/CeciEstUnTest/CeciEstUnTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/EChessL.iml" filepath="$PROJECT_DIR$/.idea/EChessL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Interface/Interface.iml" filepath="$PROJECT_DIR$/Interface/Interface.iml" />
+    </modules>
+  </component>
+</project>
