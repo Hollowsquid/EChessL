@@ -6,7 +6,7 @@ import java.awt.image.BufferStrategy;
 
 public class EchessL extends Canvas implements Runnable{
 
-    public static final int WIDTH = 700, HEIGHT = 700;
+    public static final int WIDTH = 700, HEIGHT = 720;
     private Thread thread;
     private boolean running = false;
     public static int pieceSelectLigne = -1;
