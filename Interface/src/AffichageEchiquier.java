@@ -181,7 +181,7 @@ public class AffichageEchiquier {
                 case(4)://fou
                     k = 1;
                     toucher = false;
-                    while (ligne-k >= 0 && colonne-k > 0 && echiquier[ligne-k][colonne-k].equipe != equipe && !toucher) {//haut gauche
+                    while (ligne-k >= 0 && colonne-k >= 0 && echiquier[ligne-k][colonne-k].equipe != equipe && !toucher) {//haut gauche
                         depPosTot[nPos][0] = ligne-k;
                         depPosTot[nPos][1] = colonne-k;
                         if(echiquier[ligne-k][colonne-k].equipe != equipe && echiquier[ligne-k][colonne-k].equipe != 0){
@@ -280,7 +280,7 @@ public class AffichageEchiquier {
 
                     k = 1;
                     toucher = false;
-                    while (ligne-k >= 0 && colonne-k > 0 && echiquier[ligne-k][colonne-k].equipe != equipe && !toucher) {//haut gauche
+                    while (ligne-k >= 0 && colonne-k >= 0 && echiquier[ligne-k][colonne-k].equipe != equipe && !toucher) {//haut gauche
                         depPosTot[nPos][0] = ligne-k;
                         depPosTot[nPos][1] = colonne-k;
                         if(echiquier[ligne-k][colonne-k].equipe != equipe && echiquier[ligne-k][colonne-k].equipe != 0){
