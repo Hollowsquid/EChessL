@@ -1,6 +1,3 @@
-
-
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -12,6 +9,8 @@ public class EchessL extends Canvas implements Runnable{
     public static int pieceSelectLigne = -1;
     public static int pieceSelectColonne = -1;
     public static int dimRect = WIDTH/8-1;
+    static int tourActuel = 1;
+    static boolean deplacementAccepter = true;
 
     static Piece[][] echiquier = initialisationEchiquier();
 
@@ -42,7 +41,7 @@ public class EchessL extends Canvas implements Runnable{
         double ns = 1000000000/amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
-        int frames = 0;
+        //int frames = 0;
 
         while(running){
             long now = System.nanoTime();
@@ -56,12 +55,12 @@ public class EchessL extends Canvas implements Runnable{
             if(running){
                 render();
             }
-            frames ++;
+            //frames ++;
 
             if(System.currentTimeMillis()-timer > 1000){
                 timer += 1000;
                 //System.out.println("FPS : "+frames);
-                frames = 0;
+                //frames = 0;
             }
         }
         stop();
@@ -96,7 +95,7 @@ public class EchessL extends Canvas implements Runnable{
             }
         }
 
-        if (pieceSelectColonne >= 0 && pieceSelectLigne >= 0){
+        if (pieceSelectColonne >= 0 && pieceSelectLigne >= 0 && echiquier[pieceSelectLigne][pieceSelectColonne].equipe == tourActuel){
             int[][] CasesAccessible = echiquier[pieceSelectLigne][pieceSelectColonne].deplacementPossible(pieceSelectLigne,pieceSelectColonne,echiquier);
             g.setColor(Color.red);
             for (int[] ints : CasesAccessible) {
@@ -153,6 +152,7 @@ public class EchessL extends Canvas implements Runnable{
             echiquierDepl[ligneArr][colonneArr] = chgm;
         }else{
             System.out.println("Cette position n'est pas possible");
+            deplacementAccepter = false;
         }
         return echiquierDepl;
     }
@@ -163,7 +163,7 @@ public class EchessL extends Canvas implements Runnable{
     }
 
     static Piece [][]initialisationEchiquier(){
-        Piece[][] echiquier = new Piece[8][8];
+        echiquier = new Piece[8][8];
         for(int i = 0; i < 8 ; i ++){
             for(int j = 0; j < 8 ; j ++){
                 echiquier[i][j] = new Piece(0,0,0);
@@ -187,4 +187,27 @@ public class EchessL extends Canvas implements Runnable{
         return echiquier;
     }
 
+    public static int ConditionVictoire(Piece[][] echiquier){
+        int resultat = 0;
+        boolean roiHautExiste = false;
+        boolean roiBasExiste = false;
+        for(int i = 0; i < 8 ; i ++){
+            for(int j = 0;  j < 8 ; j ++){
+                if(echiquier[i][j].type == 6){
+                    if(echiquier[i][j].equipe > 0){
+                        roiHautExiste = true;
+                    }else{
+                        roiBasExiste = true;
+                    }
+                }
+            }
+        }
+        if(!roiBasExiste){
+            resultat = 1;
+        }else if(!roiHautExiste){
+            resultat = -1;
+        }
+
+        return resultat;
+    }
 }
