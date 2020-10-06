@@ -1,15 +1,15 @@
-public class piece{
+public class Piece{
         int type; //1 : pion | 2 : tour | 3 : cavalier | 4 : fou | 5 : reine | 6 : roi
         int valeur;// valeur de la pièce | pion : | tour : ...
         int equipe;// equipe de la pièce | haut : 1 | bas : -1 | case vide : 0
 
-        piece(int typei,int valeuri,int equipei){
+        Piece(int typei,int valeuri,int equipei){
             type = typei;
             valeur = valeuri;
             equipe = equipei;
         }
 
-        int[][] deplacementPossible(int ligne, int colonne, piece[][] echiquier){
+        int[][] deplacementPossible(int ligne, int colonne, Piece[][] echiquier){
             int [][] depPosTot = new int[8*8][2];
             int nPos = 0;
 

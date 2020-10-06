@@ -13,7 +13,7 @@ public class EchessL extends Canvas implements Runnable{
     public static int pieceSelectColonne = -1;
     public static int dimRect = WIDTH/8-1;
 
-    piece[][] echiquier = initialisationEchiquier();
+    Piece[][] echiquier = initialisationEchiquier();
 
     public EchessL(){
         addMouseListener(new Evenement());
@@ -80,8 +80,6 @@ public class EchessL extends Canvas implements Runnable{
 //        g.setColor(new Color(100,75,250));
 //        g.fillRect(0,0,WIDTH,HEIGHT);
 
-
-
         for(int i = 0; i < 8 ; i ++){
             for(int j = 0 ; j < 8 ; j ++){
                 if( (j*7+i)%2 == 0 ){
@@ -96,6 +94,15 @@ public class EchessL extends Canvas implements Runnable{
 
             }
         }
+
+        if (pieceSelectColonne > 0 && pieceSelectLigne > 0){
+            int[][] CasesAccessible = echiquier[pieceSelectLigne][pieceSelectColonne].deplacementPossible(pieceSelectLigne,pieceSelectColonne,echiquier);
+            g.setColor(Color.red);
+            for(int i = 0 ; i < CasesAccessible.length ; i ++){
+                g.fillRect(CasesAccessible[i][1]*dimRect,CasesAccessible[i][0]*dimRect,dimRect,dimRect);
+            }
+        }
+
         g.setColor(new Color(100,75,250));
         Font fonte = new Font(" TimesRoman ",Font.BOLD,30);
         g.setFont(fonte);
@@ -103,7 +110,6 @@ public class EchessL extends Canvas implements Runnable{
             for(int j = 0; j < 8 ; j ++){
                 String aff = "";
                 switch (echiquier[i][j].type) {
-                    case (0) -> aff += '·';
                     case (1) -> aff += 'P';
                     case (2) -> aff += 'T';
                     case (3) -> aff += 'C';
@@ -124,6 +130,8 @@ public class EchessL extends Canvas implements Runnable{
             }
         }
 
+
+
         g.dispose();
         bs.show();
     }
@@ -133,27 +141,27 @@ public class EchessL extends Canvas implements Runnable{
         new EchessL();
     }
 
-    static piece [][]initialisationEchiquier(){
-        piece[][] echiquier = new piece[8][8];
+    static Piece [][]initialisationEchiquier(){
+        Piece[][] echiquier = new Piece[8][8];
         for(int i = 0; i < 8 ; i ++){
             for(int j = 0; j < 8 ; j ++){
-                echiquier[i][j] = new piece(0,0,0);
+                echiquier[i][j] = new Piece(0,0,0);
             }
         }
         for(int i = 0; i < 8 ; i ++){
-            echiquier[1][i] = new piece(1,10,1);
-            echiquier[6][i] = new piece(1,10,-1);
+            echiquier[1][i] = new Piece(1,10,1);
+            echiquier[6][i] = new Piece(1,10,-1);
         }
         for(int i = 0; i < 3 ; i ++){
-            echiquier[0][i] = new piece(2+i,10*(2+i),1);
-            echiquier[0][7-i] = new piece(2+i,10*(2+i),1);
-            echiquier[7][i] = new piece(2+i,10*(2+i),-1);
-            echiquier[7][7-i] = new piece(2+i,10*(2+i),-1);
+            echiquier[0][i] = new Piece(2+i,10*(2+i),1);
+            echiquier[0][7-i] = new Piece(2+i,10*(2+i),1);
+            echiquier[7][i] = new Piece(2+i,10*(2+i),-1);
+            echiquier[7][7-i] = new Piece(2+i,10*(2+i),-1);
         }
-        echiquier[0][3] = new piece(5,100,1);
-        echiquier[0][4] = new piece(6,1000,1);
-        echiquier[7][3] = new piece(6,1000,-1);
-        echiquier[7][4] = new piece(5,100,-1);
+        echiquier[0][3] = new Piece(5,100,1);
+        echiquier[0][4] = new Piece(6,1000,1);
+        echiquier[7][3] = new Piece(6,1000,-1);
+        echiquier[7][4] = new Piece(5,100,-1);
 
         return echiquier;
     }

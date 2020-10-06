@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CeciEstUnTest/CeciEstUnTest.iml" filepath="$PROJECT_DIR$/CeciEstUnTest/CeciEstUnTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/EChessL.iml" filepath="$PROJECT_DIR$/.idea/EChessL.iml" />
-      <module fileurl="file://$PROJECT_DIR$/EchessL/EchessL.iml" filepath="$PROJECT_DIR$/EchessL/EchessL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EchessLAff/EchessLAff.iml" filepath="$PROJECT_DIR$/EchessLAff/EchessLAff.iml" />
       <module fileurl="file://$PROJECT_DIR$/Interface/Interface.iml" filepath="$PROJECT_DIR$/Interface/Interface.iml" />
     </modules>
   </component>
