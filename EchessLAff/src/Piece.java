@@ -10,13 +10,13 @@ public class Piece{
         }
 
         int[][] deplacementPossible(int ligne, int colonne, Piece[][] echiquier){
-            int [][] depPosTot = new int[8*8][2];
-            int nPos = 0;
+            int [][] depPosTot = new int[64][2]; // deplacement possible total : un grand tableau du lequel on rentre tout les mouvements possible et qu'on redimensionne ensuite pour ne pas avoir de case vide
+            int nPos = 0;//nombre de position possible
 
             switch(type){
 
                 case(1)://pion
-
+                    //les premières conditions permettent de ne pas sortir de l'echiquier
                     if( (ligne+equipe >= 0 && ligne+equipe < 8 && echiquier[ligne+equipe][colonne].equipe == 0) ){//avance
                         depPosTot[nPos][0] = ligne+equipe;
                         depPosTot[nPos][1] = colonne;
@@ -270,7 +270,7 @@ public class Piece{
 
             }
 
-            int [][] depPosRep = new int[nPos][2];
+            int [][] depPosRep = new int[nPos][2]; // on redimensionne le tableau
             if(nPos > 0){
                 for(int i = 0 ; i < nPos ; i ++){
                     depPosRep[i][0] = depPosTot[i][0];
@@ -280,7 +280,7 @@ public class Piece{
             return depPosRep;
         }
 
-        void mort(){
+        void mort(){//Ce qui ce passe lorsqu'une pièce "meurt"
             if(type != 0){
                 System.out.println("La pièce "+type+" de l'équipe "+equipe+" est morte !");
             }

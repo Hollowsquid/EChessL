@@ -7,10 +7,6 @@ public class Evenement implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         if ( SwingUtilities.isLeftMouseButton(e) ){
-//            System.out.print("Colonne : ");
-//            System.out.println(e.getX()/EchessL.dimRect);
-//            System.out.print("Ligne : ");
-//            System.out.println(e.getY()/EchessL.dimRect);
 
             EchessL.pieceSelectLigne = e.getY()/EchessL.dimRect;
             EchessL.pieceSelectColonne = e.getX()/EchessL.dimRect;
