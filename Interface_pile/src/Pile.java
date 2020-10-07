@@ -1,7 +1,7 @@
 public class Pile {
-    int[][] pile;
-    int capacite = 1;
-    int nombreElements = 0;
+    private int[][] pile;
+    private int capacite = 1;
+    private int nombreElements = 0;
     Pile(int[] element){
         pile= new int[][]{element};
     }
@@ -9,19 +9,16 @@ public class Pile {
     public void empiler(int[] element){
         if(nombreElements == capacite){
             int[][] newPile = new int[capacite*2][pile[0].length];
-            for(int i = 0; i < capacite; i++){
-                newPile[i] = pile[i];
-            }
+            if (capacite >= 0) System.arraycopy(pile, 0, newPile, 0, capacite);
             pile = newPile;
             capacite*=2;
         }
         pile[nombreElements] = element;
         nombreElements++;
+        random1erElt();
     }
 
-    public boolean pileVide(){
-        return nombreElements <= 0;
-    }
+    public boolean pileVide(){return nombreElements <= 0;}
 
     public int[] depiler(){
         if(pileVide()){
@@ -33,15 +30,25 @@ public class Pile {
             return pile[nombreElements];
         }
     }
-
+/*
     public void random(){
         int[][] newPile = new int[capacite][pile[0].length];
         int i = nombreElements;
         while(i > 0){
-            newPile[nombreElements-i] = pile[(int) (Math.random()*i)];
+            int j=(int) (Math.random()*i);
+            newPile[nombreElements-i] = pile[j];
+            pile[j]=pile[i-1];
             i--;
         }
         pile = newPile;
+    }
+
+ */
+    private void random1erElt(){
+        int j=(int) (Math.random()*nombreElements);
+        int[] a=pile[j];
+        pile[j]=pile[0];
+        pile[0]=a;
     }
 
     public void union(Pile p){

@@ -21,92 +21,102 @@ public class AI {
     }
     */
 
+    public static int[] minimax(Echiquier echiquier,int equipe,int profondeur){//retourne la position de départ et d'arrivée du meilleur coût et sa valeur
+        int[] m = new int[0];//m={valeur coût,ligne départ,colonne départ,ligne arrivée,colonne arrivée}
+        if(equipe==1) {
+            for (int i = 0; i < 8; i++) {
+                 for (int j = 0; j < 8; j++) {
+                     if (echiquier.getEquipe(i,j) == equipe) {
+                         Pile deplacements = echiquier.deplacementPossiblePosition(i, j);
+                         int[] t = deplacements.depiler();
+                         if (profondeur > 0) {
+                             echiquier.change(i, j, t[0], t[1]);
+                             m = minimax(echiquier, -equipe, profondeur - 1);
+                             m = new int[]{m[0], i, j, t[0], t[1]};
+                             echiquier.changeBack();
+                             while (!deplacements.pileVide()) {
+                                 t = deplacements.depiler();
+                                 int[] a = minimax(change(echiquier, i, j, t[0], t[1]), -equipe, profondeur - 1);
+                                 if (a[0] > m[0]) {
+                                     m = new int[]{a[0], i, j, t[0], t[1]};
+                                 }
+                             }
+                         } else {
+                             m = new int[]{fonctionDevalBete(change(echiquier, i, j, t[0], t[1])), i, j, t[0], t[1]};
+                             while (!deplacements.pileVide()) {
+                                 t = deplacements.depiler();
+                                 int a = fonctionDevalBete(change(echiquier, i, j, t[0], t[1]));
+                                 if (a > m[0]) {
+                                     m = new int[]{a, i, j, t[0], t[1]};
+                                 }
+                             }
+                         }
+                     }
+                 }
+             }
+        }
+         else {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (echiquier[i][j].equipe == equipe) {
+                        Pile deplacements = echiquier[i][j].deplacementPossiblePosition(i, j, echiquier);
+                        int[] t = deplacements.depiler();
+                        if (profondeur > 0) {
+                            m = minimax(change(echiquier, i, j, t[0], t[1]), -equipe, profondeur - 1);
+                            m = new int[]{m[0], i, j, t[0], t[1]};
+                            while (!deplacements.pileVide()) {
+                                t = deplacements.depiler();
+                                int[] a = minimax(change(echiquier, i, j, t[0], t[1]), -equipe, profondeur - 1);
+                                if (a[0] < m[0]) {
+                                    m = new int[]{a[0], i, j, t[0], t[1]};
+                                }
+                            }
+                        } else {
+                            m = new int[]{fonctionDevalBete(change(echiquier, i, j, t[0], t[1])), i, j, t[0], t[1]};
+                            while (!deplacements.pileVide()) {
+                                t = deplacements.depiler();
+                                int a = fonctionDevalBete(change(echiquier, i, j, t[0], t[1]));
+                                if (a < m[0]) {
+                                    m = new int[]{a, i, j, t[0], t[1]};
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        return m;
+    }
+
+        /*
+    public static Pile tousDeplacementsPossible(Piece[][] echiquier,int equipe){
+        Pile deplacements=new Pile(new int[]{0,0});
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(echiquier[i][j].equipe == equipe){
+                    deplacements.empiler(new int[]{i,j});
+                }
+            }
+        }
+        deplacements;
+    }
+
+         */
+
     public static int fonctionDevalBete(Piece[][] echiquier){
         int s=0;
         for(int i=0; i<8; i++){
             for(int j=0; j<8; j++){
+                int epsilon=echiquier[i][j].equipe;
                 switch(echiquier[i][j].type){
-                    case("pion") -> s+=1*ponderation
+                    case(0) -> s+=epsilon;
+                    case(1) -> s+=5*epsilon;
+                    case(2), (3) -> s+=3*epsilon;
+                    case(4) -> s+=10*epsilon;
                 }
             }
         }
-    }
-
-    public static int chessMate(Piece[][] echiquier){//retourn 1 si le roi du joueur 1 est en échec, -1 si joueur -1, 0 sinon
-        boolean chess_mate = false;
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                if(echiquier[i][j].type == "roi"){
-                    int equipe=echiquier[i][j].equipe;
-
-                    int k = 1;
-                    while (i-k >= 0 && echiquier[i-k][j].equipe == 0) {
-                        k ++;
-                    }
-                    if(i-k >= 0 && echiquier[i-k][j].equipe != equipe && ("reine".equals(echiquier[i-k][j]) || "tour".equals(echiquier[i-k][j]))){
-                        return equipe;
-                    }
-
-                    k = 1;
-                    while (i+k < 8 && echiquier[i-k][j].equipe == 0) {
-                        k ++;
-                    }
-                    if(i+k < 8 && echiquier[i+k][j].equipe != equipe && ("reine".equals(echiquier[i+k][j]) || "tour".equals(echiquier[i+k][j]))){
-                        return equipe;
-                    }
-
-                    k = 1;
-                    while (j+k < 8 && echiquier[i][j+k].equipe == 0) {
-                        k ++;
-                    }
-                    if(j+k < 8 && echiquier[i][j+k].equipe != equipe && ("reine".equals(echiquier[i][j+k]) || "tour".equals(echiquier[i][j+k]))){
-                        return equipe;
-                    }
-
-                    k = 1;
-                    while (j-k >= 0 && echiquier[i][j-k].equipe == 0) {
-                        k ++;
-                    }
-                    if(j-k >= 0 && echiquier[i][j-k].equipe != equipe && ("reine".equals(echiquier[i][j-k]) || "tour".equals(echiquier[i][j-k]))){
-                        return equipe;
-                    }
-
-
-                    k = 1;
-                    while (j-k >= 0 && i-k >= 0 && echiquier[i-k][j-k].equipe == 0) {
-                        k ++;
-                    }
-                    if(j-k >= 0 && i-k >= 0 && echiquier[i-k][j-k].equipe != equipe && ("reine".equals(echiquier[i-k][j-k]) || "tour".equals(echiquier[i-k][j-k]))){
-                        return equipe;
-                    }
-
-                    k = 1;
-                    while (j-k >= 0 && i+k < 8 && echiquier[i+k][j-k].equipe == 0) {
-                        k ++;
-                    }
-                    if(j-k >= 0 && i+k < 8 && echiquier[i+k][j-k].equipe != equipe && ("reine".equals(echiquier[i+k][j-k]) || "tour".equals(echiquier[i+k][j-k]))){
-                        return equipe;
-                    }
-
-                    k = 1;
-                    while (j+k < 8 && i+k < 8 && echiquier[i+k][j+k].equipe == 0) {
-                        k ++;
-                    }
-                    if(j+k < 8 && i+k < 8 && echiquier[i+k][j+k].equipe != equipe && ("reine".equals(echiquier[i+k][j+k]) || "tour".equals(echiquier[i+k][j+k]))){
-                        return equipe;
-                    }
-
-                    k = 1;
-                    while (j+k < 8 && i-k >= 0 && echiquier[i-k][j+k].equipe == 0) {
-                        k ++;
-                    }
-                    if(j+k < 8 && i-k >= 0 && echiquier[i-k][j+k].equipe != equipe && ("reine".equals(echiquier[i-k][j+k]) || "tour".equals(echiquier[i-k][j+k]))){
-                        return equipe;
-                    }
-
-                }
-            }
-        }
-        return 0;
+        return s;
     }
 }
