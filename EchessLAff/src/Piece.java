@@ -17,12 +17,12 @@ public class Piece{
 
                 case(1)://pion
 
-                    if( (ligne+equipe >= 0 && ligne+equipe < 8 && echiquier[ligne+equipe][colonne].equipe != equipe) ){//avance
+                    if( (ligne+equipe >= 0 && ligne+equipe < 8 && echiquier[ligne+equipe][colonne].equipe == 0) ){//avance
                         depPosTot[nPos][0] = ligne+equipe;
                         depPosTot[nPos][1] = colonne;
                         nPos ++;
                     }
-                    if(ligne == (1-equipe)*3+(equipe+1)/2 && echiquier[ligne+2*equipe][colonne].equipe != equipe){//double avance
+                    if(ligne == (1-equipe)*3+(equipe+1)/2 && echiquier[ligne+2*equipe][colonne].equipe == 0){//double avance
                         depPosTot[nPos][0] = ligne+2*equipe;
                         depPosTot[nPos][1] = colonne;
                         nPos ++;

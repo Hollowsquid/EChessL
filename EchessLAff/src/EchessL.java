@@ -187,27 +187,33 @@ public class EchessL extends Canvas implements Runnable{
         return echiquier;
     }
 
-    public static int ConditionVictoire(Piece[][] echiquier){
-        int resultat = 0;
-        boolean roiHautExiste = false;
-        boolean roiBasExiste = false;
-        for(int i = 0; i < 8 ; i ++){
-            for(int j = 0;  j < 8 ; j ++){
-                if(echiquier[i][j].type == 6){
-                    if(echiquier[i][j].equipe > 0){
-                        roiHautExiste = true;
-                    }else{
-                        roiBasExiste = true;
+
+    public static void clicDroit(int mouseX,int mouseY){
+        if(pieceSelectColonne >= 0 && pieceSelectLigne >= 0 && echiquier[pieceSelectLigne][pieceSelectColonne].equipe == tourActuel){
+            deplacementAccepter = true;
+            Piece pieceManger = echiquier[mouseY/dimRect][mouseX/dimRect];
+            Piece pieceDeplacer = echiquier[pieceSelectLigne][pieceSelectColonne];
+            deplacer(pieceSelectLigne, pieceSelectColonne,mouseY/dimRect,mouseX/dimRect,echiquier);
+            if(deplacementAccepter){
+                //deplacementFait(pieceManger,pieceDeplacer);
+                tourActuel *= -1;
+                if(pieceManger.type == 6){
+                    System.out.println("Victoire de l'équipe "+pieceManger.equipe+" !");
+                    initialisationEchiquier();
+                }
+                if(pieceDeplacer.type == 1){
+                    if(mouseY/dimRect == 0 && pieceDeplacer.equipe == -1){
+                        echiquier[0][mouseX/dimRect] = new Piece(5,100,-1);
+                    }else if(mouseY/dimRect == 7 && pieceDeplacer.equipe == 1){
+                        echiquier[7][mouseX/dimRect] = new Piece(5,100,1);
                     }
                 }
-            }
-        }
-        if(!roiBasExiste){
-            resultat = 1;
-        }else if(!roiHautExiste){
-            resultat = -1;
-        }
 
-        return resultat;
+            }
+            pieceSelectColonne = -1;
+            pieceSelectLigne = -1;
+        }
     }
+
+
 }
