@@ -88,7 +88,7 @@ public class EchessL extends Canvas implements Runnable{
         //Affiche les cases du damier et la case selectionnée
         for(int i = 0; i < 8 ; i ++){
             for(int j = 0 ; j < 8 ; j ++){
-                if( (j*7+i)%2 == 0 ){
+                if( (j*7+i)%2 == 1 ){
                     g.setColor(Color.black);
                 }else{
                     g.setColor(Color.white);
@@ -189,8 +189,8 @@ public class EchessL extends Canvas implements Runnable{
         }
         echiquier[0][3] = new Piece(5,100,1);
         echiquier[0][4] = new Piece(6,1000,1);
-        echiquier[7][3] = new Piece(6,1000,-1);
-        echiquier[7][4] = new Piece(5,100,-1);
+        echiquier[7][4] = new Piece(6,1000,-1);
+        echiquier[7][3] = new Piece(5,100,-1);
 
         return echiquier;
     }
