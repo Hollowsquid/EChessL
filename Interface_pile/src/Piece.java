@@ -1,3 +1,5 @@
+package Interface_Pile;
+
 public class Piece {
 
     private int type; //0 : case vide | 1 : pion | 2 : tour | 3 : cavalier | 4 : fou | 5 : reine | 6 : roi
@@ -16,9 +18,7 @@ public class Piece {
         return castle;
     }
 
-    public void giveCastle(){
-        castle=false;
-    }
+    public void setCastle(boolean castle){this.castle = castle;}
 /*
     public void changePiece(int type,int equipe){
         this.equipe=equipe;
@@ -27,11 +27,19 @@ public class Piece {
 
  */
 
-    Piece(int type1, int equipe1) {
-        type = type1;
-        equipe = equipe1;
-        if(type==2){
-            castle=true;
-        }
+    Piece(int type, int equipe) {
+        if(type>=0 && type<7 && equipe<=1 && equipe>=-1) {
+            this.type = type;
+            this.equipe = equipe;
+            if (type == 2 || type == 0) {
+                castle = true;
+            }
+        } else
+            System.out.println("ERROR_PieceInvalide");
+    }
+    Piece(){
+        type=0;
+        equipe=0;
     }
 }
+

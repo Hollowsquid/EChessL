@@ -1,7 +1,10 @@
+package Interface_Pile;
+
 public class Pile {
     private int[][] pile;
     private int capacite = 1;
     private int nombreElements = 0;
+
     Pile(int[] element){
         pile= new int[][]{element};
     }
@@ -30,20 +33,20 @@ public class Pile {
             return pile[nombreElements];
         }
     }
-/*
-    public void random(){
-        int[][] newPile = new int[capacite][pile[0].length];
-        int i = nombreElements;
-        while(i > 0){
-            int j=(int) (Math.random()*i);
-            newPile[nombreElements-i] = pile[j];
-            pile[j]=pile[i-1];
-            i--;
+    /*
+        public void random(){
+            int[][] newPile = new int[capacite][pile[0].length];
+            int i = nombreElements;
+            while(i > 0){
+                int j=(int) (Math.random()*i);
+                newPile[nombreElements-i] = pile[j];
+                pile[j]=pile[i-1];
+                i--;
+            }
+            pile = newPile;
         }
-        pile = newPile;
-    }
 
- */
+     */
     private void random1erElt(){
         int j=(int) (Math.random()*nombreElements);
         int[] a=pile[j];
@@ -55,6 +58,7 @@ public class Pile {
         while(!p.pileVide()){
             empiler(p.depiler());
         }
+        random1erElt();
     }
 
     public void affichage(){
