@@ -1,5 +1,6 @@
 public class Echiquier {
     private Piece[][] tableau=new Piece[8][8];
+    private PilePiece coutTot;
 
     Echiquier(){
         for(int i=2; i<6; i++){
@@ -36,9 +37,6 @@ public class Echiquier {
     }
 
  */
-
-    private Piece[] coupAvantPiece={new Piece(), new Piece()};
-    private int[] coupAvantIndice={-1,-1,-1,-1};
 /*
     public void changeBack(){
         Piece chg=new Piece(coupAvant[0][1],coupAvant[0][0]);
@@ -50,12 +48,8 @@ public class Echiquier {
  */
 
     public void change(int ligneDep,int colonneDep,int ligneArr,int colonneArr) {
-        coupAvantPiece[0] = tableau[ligneDep][colonneDep];
-        coupAvantPiece[1] = tableau[ligneArr][colonneArr];
-        coupAvantIndice[0]=ligneDep;
-        coupAvantIndice[1]=colonneDep;
-        coupAvantIndice[2]=ligneArr;
-        coupAvantIndice[3]=colonneArr;
+        Piece[] coupAvantPiece={tableau[ligneDep][colonneDep], tableau[ligneArr][colonneArr]};
+        int[] coupAvantIndice={ligneDep,colonneDep,ligneArr,colonneArr};
         if((ligneArr==0 || ligneArr==7) && colonneArr==2 && coupAvantPiece[0].getType()==6){
             tableau[ligneArr][3] = tableau[ligneArr][0];
             tableau[ligneArr][2] = tableau[ligneArr][4];
@@ -63,16 +57,67 @@ public class Echiquier {
             tableau[ligneArr][4] = new Piece();
             tableau[ligneArr][3].setCastle(false);
             tableau[ligneArr][2].setCastle(false);
-        } else if((ligneArr==0 || ligneArr==7) && colonneArr==6 && coupAvantPiece[0].getType()==6){
-            tableau[ligneArr][5] = tableau[ligneArr][0];
+        } else if((ligneArr==0 || ligneArr==7) && colonneArr==6 && coupAvantPiece[0].getType()==6) {
+            tableau[ligneArr][5] = tableau[ligneArr][7];
             tableau[ligneArr][6] = tableau[ligneArr][4];
             tableau[ligneArr][7] = new Piece();
             tableau[ligneArr][4] = new Piece();
             tableau[ligneArr][5].setCastle(false);
             tableau[ligneArr][6].setCastle(false);
+        } else if(ligneDep==ligneArr && coupAvantPiece[0].getType()==1 && (colonneDep==colonneArr-1 || colonneDep==colonneArr+1)){//check en passant
+            tableau[ligneArr+coupAvantPiece[0].getEquipe()][colonneArr]=coupAvantPiece[0];
+            tableau[ligneDep][colonneDep]=new Piece();
+            tableau[ligneDep][colonneArr]=new Piece();
         } else {
+            if(coupAvantPiece[0].getType()==1 && Math.abs(ligneArr-ligneDep)==2)//pion avance 2 case
+                coupAvantPiece[0].setAvance2case(true);
             tableau[ligneArr][colonneArr]=coupAvantPiece[0];
             tableau[ligneDep][colonneDep]=new Piece();
+        }
+        coutTot.empiler(coupAvantIndice,coupAvantPiece);
+    }
+
+    public void changeBack(){
+        if(coutTot.pileVide()){
+            System.out.println("ERROR_pilePieceVide");
+        }
+        else {
+            Object[] t= coutTot.depiler();
+            Piece[] coupAvantPiece=(Piece[])t[1];
+            int[] coupAvantIndice=(int[])t[0];
+
+            int ligneDep=coupAvantIndice[0];
+            int colonneDep=coupAvantIndice[1];
+            int ligneArr = coupAvantIndice[2];
+            int colonneArr=coupAvantIndice[3];
+
+            tableau[ligneDep][colonneDep]=coupAvantPiece[0];
+            tableau[ligneArr][colonneArr]=coupAvantPiece[1];
+
+            if((ligneArr==0 || ligneArr==7) && colonneArr==2 && coupAvantPiece[0].getType()==6){
+                tableau[ligneArr][0]=tableau[ligneArr][3];
+                tableau[ligneArr][4]=tableau[ligneArr][2];
+                tableau[ligneArr][3] = new Piece();
+                tableau[ligneArr][2] = new Piece();
+                tableau[ligneArr][0].setCastle(true);
+                tableau[ligneArr][4].setCastle(true);
+            } else if((ligneArr==0 || ligneArr==7) && colonneArr==6 && coupAvantPiece[0].getType()==6){
+                tableau[ligneArr][7]=tableau[ligneArr][5];
+                tableau[ligneArr][4]=tableau[ligneArr][6];
+                tableau[ligneArr][5] = new Piece();
+                tableau[ligneArr][6] = new Piece();
+                tableau[ligneArr][4].setCastle(true);
+                tableau[ligneArr][7].setCastle(true);
+            } else if(ligneDep==ligneArr && coupAvantPiece[0].getType()==1 && (colonneDep==colonneArr-1 || colonneDep==colonneArr+1)){//check en passant
+                tableau[ligneArr+coupAvantPiece[0].getEquipe()][colonneArr]=new Piece();
+                tableau[ligneDep][colonneDep]=coupAvantPiece[0];
+                tableau[ligneDep][colonneArr]=coupAvantPiece[1];
+            }else {
+                if(coupAvantPiece[0].getType()==1 && Math.abs(ligneArr-ligneDep)==2)//pion avance 2 case
+                    coupAvantPiece[0].setAvance2case(false);
+                tableau[ligneArr][colonneArr] = coupAvantPiece[1];
+                tableau[ligneDep][colonneDep] = coupAvantPiece[0];
+            }
         }
     }
 
@@ -311,12 +356,19 @@ public class Echiquier {
                 c=colonne+1;
                 if( l >= 0 && l < 8 && c < 8 && tableau[l][c].getEquipe() == -equipe){
                     depPosTot.empiler(new int[] {l,c});
+                    if(tableau[l][c].getEquipe() == 0 && tableau[ligne][c].getEquipe() == -equipe && tableau[ligne][c].getAvance2case() && ligne==3+ ((equipe==1) ? 1 : 0))//en passant droit
+                        depPosTot.empiler(new int[] {ligne,c});
                 }
                 l=ligne+equipe;
                 c=colonne-1;
-                if( l > 0 && l < 8 && c > 0 && c < 8 && tableau[l][c].getEquipe() == -equipe){
-                    depPosTot.empiler(new int[] {l,c});
+                if( l > 0 && l < 8 && c > 0 && c < 8){
+                    if(tableau[l][c].getEquipe() == -equipe)
+                        depPosTot.empiler(new int[] {l,c});
+                    if(tableau[l][c].getEquipe() == 0 && tableau[ligne][c].getEquipe() == -equipe && tableau[ligne][c].getAvance2case() && ligne==3+ ((equipe==1) ? 1 : 0))//en passant gauche
+                        depPosTot.empiler(new int[] {ligne,c});
                 }
+
+
                 break;
 
             case(2)://tour

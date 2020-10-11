@@ -2,7 +2,8 @@ public class Piece {
 
     private int type; //0 : case vide | 1 : pion | 2 : tour | 3 : cavalier | 4 : fou | 5 : reine | 6 : roi
     private int equipe;// equipe de la pièce | haut : 1 | bas : -1 | case vide : 0
-    private boolean castle=false;
+    private boolean castle=false;//vrai si la tour/le roi peut encore rock
+    private boolean avance2case=false;//vrai si le pion a avancé de 2 cases lors de son 1er déplacement
 
     public int getEquipe(){
         return equipe;
@@ -17,6 +18,11 @@ public class Piece {
     }
 
     public void setCastle(boolean castle){this.castle = castle;}
+
+    public boolean getAvance2case(){ return avance2case;}
+
+    public void setAvance2case(boolean avance2case){ this.avance2case=avance2case;}
+
 /*
     public void changePiece(int type,int equipe){
         this.equipe=equipe;
